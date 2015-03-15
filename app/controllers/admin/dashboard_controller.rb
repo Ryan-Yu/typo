@@ -1,5 +1,5 @@
 class Admin::DashboardController < Admin::BaseController
-  require 'open-uri'
+  # require 'open-uri'
   require 'time'
   require 'rexml/document'
 
@@ -51,12 +51,12 @@ class Admin::DashboardController < Admin::BaseController
   end
 
   def inbound_links
-    url = "http://www.google.com/search?q=link:#{this_blog.base_url}&tbm=blg&output=rss"
-    open(url) do |http|
-      @inbound_links = parse_rss(http.read).reverse
-    end
-  rescue
-    @inbound_links = nil
+  #   url = "http://www.google.com/search?q=link:#{this_blog.base_url}&tbm=blg&output=rss"
+  #   open(url) do |http|
+  #     @inbound_links = parse_rss(http.read).reverse
+  #   end
+  # rescue
+  #   @inbound_links = nil
   end
 
   def typo_version
@@ -73,21 +73,21 @@ class Admin::DashboardController < Admin::BaseController
   end
 
   def get_typo_version
-    url = "http://blog.typosphere.org/version.txt"
-    open(url) do |http|
-      @typo_version = http.read[0..5]
-    end
-  rescue
-    @typo_version = nil
+  #   url = "http://blog.typosphere.org/version.txt"
+  #   # open(url) do |http|
+  #   #   @typo_version = http.read[0..5]
+  #   # end
+  # rescue
+  #   @typo_version = nil
   end
 
   def typo_dev
-    url = "http://blog.typosphere.org/articles.rss"
-    open(url) do |http|
-      @typo_links = parse_rss(http.read)[0..4]
-    end
-  rescue
-    @typo_links = nil
+  #   url = "http://blog.typosphere.org/articles.rss"
+  #   open(url) do |http|
+  #     @typo_links = parse_rss(http.read)[0..4]
+  #   end
+  # rescue
+  #   @typo_links = nil
   end
 
   private
@@ -97,25 +97,25 @@ class Admin::DashboardController < Admin::BaseController
   end
 
   def parse_rss(body)
-    xml = REXML::Document.new(body)
+    # xml = REXML::Document.new(body)
 
-    items        = []
-    link         = REXML::XPath.match(xml, "//channel/link/text()").first.value rescue ""
-    title        = REXML::XPath.match(xml, "//channel/title/text()").first.value rescue ""
+    # items        = []
+    # link         = REXML::XPath.match(xml, "//channel/link/text()").first.value rescue ""
+    # title        = REXML::XPath.match(xml, "//channel/title/text()").first.value rescue ""
 
-    REXML::XPath.each(xml, "//item/") do |elem|
-      item = RssItem.new
-      item.title       = REXML::XPath.match(elem, "title/text()").first.value rescue ""
-      item.link        = REXML::XPath.match(elem, "link/text()").first.value rescue ""
-      item.description = REXML::XPath.match(elem, "description/text()").first.value rescue ""
-      item.author      = REXML::XPath.match(elem, "dc:publisher/text()").first.value rescue ""
-      item.date        = Time.mktime(*ParseDate.parsedate(REXML::XPath.match(elem, "dc:date/text()").first.value)) rescue Time.now
+    # REXML::XPath.each(xml, "//item/") do |elem|
+    #   item = RssItem.new
+    #   item.title       = REXML::XPath.match(elem, "title/text()").first.value rescue ""
+    #   item.link        = REXML::XPath.match(elem, "link/text()").first.value rescue ""
+    #   item.description = REXML::XPath.match(elem, "description/text()").first.value rescue ""
+    #   item.author      = REXML::XPath.match(elem, "dc:publisher/text()").first.value rescue ""
+    #   item.date        = Time.mktime(*ParseDate.parsedate(REXML::XPath.match(elem, "dc:date/text()").first.value)) rescue Time.now
 
-      item.description_link = item.description
-      item.description.gsub!(/<\/?a\b.*?>/, "") # remove all <a> tags
-      items << item
-    end
+    #   item.description_link = item.description
+    #   item.description.gsub!(/<\/?a\b.*?>/, "") # remove all <a> tags
+    #   items << item
+    # end
 
-    items.sort_by { |item| item.date }
+    # items.sort_by { |item| item.date }
   end
 end

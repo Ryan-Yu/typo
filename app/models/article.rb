@@ -416,6 +416,35 @@ class Article < Content
     user.admin? || user_id == user.id
   end
 
+  # Added for SAASBOOK HW
+  def merge_with(other_article_id)
+    article_to_merge = Article.find_by_id(other_article_id)
+
+    # Error checking
+    if not self.id
+      return false
+    end
+
+    if not article_to_merge
+      return false
+    end
+
+    # Merged article should contain text of both articles
+    self.body = self.body + "\n" + article_to_merge.body
+
+    # When articles merged, the merged article should have ONE author (handled already)
+
+    # Comments on each of the two original articles need to all carry over and point to the new, merged article
+    self.comments << article_to_merge.comments
+    self.save!
+
+    article_to_merge.destroy
+
+    # The title of the new article should be hte title from either one of the merged articles (handled already)
+
+    return true
+  end
+
   protected
 
   def set_published_at

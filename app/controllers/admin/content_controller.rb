@@ -1,10 +1,29 @@
 require 'base64'
+# Password: A1O0YPY
 
 module Admin; end
 class Admin::ContentController < Admin::BaseController
   layout "administration", :except => [:show, :autosave]
 
   cache_sweeper :blog_sweeper
+
+  # Called in app/views/shared/_edit.html.erb
+  def merge
+    # Grab current article
+    article = Article.find_by_id(params[:id])
+
+    # Grab article ID that was specified in the form
+    article_to_merge_with_id = params[:merge_article_id]
+
+    if (article.merge_with(article_to_merge_with_id))
+      flash[:notice] = "Articles have been merged successfully!"
+      redirect_to :action => :index
+    else
+      flash[:notice] = "Sorry, articles could not be merged!"
+      redirect_to :action => :edit, :id => params[:id]
+    end
+  end
+
 
   def auto_complete_for_article_keywords
     @items = Tag.find_with_char params[:article][:keywords].strip
