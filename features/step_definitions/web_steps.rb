@@ -35,6 +35,8 @@ Given /^the blog is set up$/ do
   Blog.default.update_attributes!({:blog_name => 'Teh Blag',
                                    :base_url => 'http://localhost:3000'});
   Blog.default.save!
+
+  # Admin user
   User.create!({:login => 'admin',
                 :password => 'aaaaaaaa',
                 :email => 'joe@snow.com',
@@ -42,12 +44,61 @@ Given /^the blog is set up$/ do
                 :name => 'admin',
                 :state => 'active'})
 
+  # Regular users
   User.create!({:login => 'regularuser',
                 :password => 'password',
                 :email => 'foobar@foobar.com',
+                :profile_id => 2,
+                :name =>  'giraffe',
+                :state => 'active'})
+
+  User.create!({:login => 'regularuser2',
+                :password => 'password',
+                :email => 'foobar1@foobar.com',
                 :profile_id => 3,
                 :name =>  'antelope',
                 :state => 'active'})
+
+  # 2 articles
+  Article.create!({:id => 3,
+                   :title => 'Article1',
+                   :author => 'regularuser',
+                   :user_id => 2,
+                   :body => 'Content1',
+                   :allow_comments => true,
+                   :published => true,
+                   :published_at => '2015-14-03 18:30:00',
+                   :state => 'published',
+                   :type => 'Article'})
+
+  Article.create!({:id => 4,
+                   :title => 'Article2',
+                   :author => 'regularuser2',
+                   :user_id => 3,
+                   :body => 'Content2',
+                   :allow_comments => true,
+                   :published => true,
+                   :published_at => '2015-14-03 18:30:00',
+                   :state => 'published',
+                   :type => 'Article'})
+
+  # 2 comments, 1 on each article
+  Comment.create!({:id => 1,
+                 :type => 'Comment',
+                 :author => 'regularuser',
+                 :body => 'Comment1',
+                 :article_id => 3,
+                 :user_id => 2,
+                 :created_at => '2015-14-03 18:30:00'})
+
+  Comment.create!({:id => 2,
+                 :type => 'Comment',
+                 :author => 'regularuser',
+                 :body => 'Comment2',
+                 :article_id => 4,
+                 :user_id => 2,
+                 :created_at => '2015-14-03 18:30:00'})
+
 end
 
 And /^I am logged in as a regular user$/ do
