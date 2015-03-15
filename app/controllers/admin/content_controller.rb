@@ -13,7 +13,7 @@ class Admin::ContentController < Admin::BaseController
     article = Article.find_by_id(params[:id])
 
     # Grab article ID that was specified in the form
-    article_to_merge_with_id = params[:merge_article_id]
+    article_to_merge_with_id = params[:merge_with]
 
     if (article.merge_with(article_to_merge_with_id))
       flash[:notice] = "Articles have been merged successfully!"

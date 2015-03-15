@@ -13,7 +13,7 @@
 	<%= form_tag :controller => "content", :action => 'merge', :id => @article.id do %>
 		<!-- Needed for autograder  -->
 		<%= label_tag "merge_with", "Article ID" %>
-		<%= text_field_tag "merge_article_id" %>
+		<%= text_field_tag "merge_with" %>
 		<%= submit_tag "Merge" %>
 	<% end %>
 <% end %>

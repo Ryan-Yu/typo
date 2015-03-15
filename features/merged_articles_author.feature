@@ -10,7 +10,7 @@ Feature: Retain one author of two merged articles
   Scenario: Admins can merge articles
     When I go to the admin edit page of article 3
     Then I should see "Merge Articles"
-    When I fill in "merge_article_id" with "4"
+    When I fill in "merge_with" with "4"
     And I press "Merge"
     Then I should be on the admin content page
     And I should see "Articles have been merged successfully!"
