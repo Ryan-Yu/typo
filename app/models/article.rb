@@ -438,6 +438,8 @@ class Article < Content
     self.comments << article_to_merge.comments
     self.save!
 
+    # Need to re-retrieve article to prevent caching of comments
+    article_to_merge = Article.find_by_id(other_article_id)
     article_to_merge.destroy
 
     # The title of the new article should be hte title from either one of the merged articles (handled already)

@@ -1,7 +1,7 @@
-Feature: Retain one author of two merged articles
+Feature: Make sure a merged article has comments from both articles
   As a blog administrator
-  In order to make content more concise
-  I want to be able to merge the text of two articles and retain the author of one of them
+  In order to retain all original content on the blog
+  I want to be able to merge the text of two articles and retain both of their comments on the merged article
 
   Background:
     Given the blog is set up
@@ -14,6 +14,8 @@ Feature: Retain one author of two merged articles
     And I press "Merge"
     Then I should be on the admin content page
     And I should see "Articles have been merged successfully!"
-    And "regularuser" should be the author of 1 articles
-    And "regularuser2" should be the author of 0 articles
-    
+    When I am on the home page
+    Then I should see "Article1"
+    When I follow "Article1"
+    Then I should see "Comment1"
+    And I should see "Comment2"
