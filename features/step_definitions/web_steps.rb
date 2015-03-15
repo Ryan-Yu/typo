@@ -101,6 +101,10 @@ Given /^the blog is set up$/ do
 
 end
 
+And /^"(.*?)" should be the author of (\d+) articles$/ do |user, numberOfArticles|
+  assert Article.find_all_by_author(user).size == Integer(numberOfArticles)
+end
+
 And /^I am logged in as a regular user$/ do
   visit '/accounts/login'
   fill_in 'user_login', :with => 'regularuser'
